@@ -24,7 +24,7 @@ This Model -  66.369% accuracy
 
 Fork from gitshanks/fer2013
 
-I changed the classifier in fertestcustom.py and add datasets support but it is hardcoded (paths of files). If you wanna use the file check it out.
+I changed the classifier in `fertestcustom.py` and add datasets support but it is **hardcoded** (paths of files). If you wanna use the file **check it out**.
 
 ## Getting Started
 
