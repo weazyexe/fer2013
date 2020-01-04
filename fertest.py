@@ -7,7 +7,7 @@ import numpy
 import os
 import numpy as np
 
-json_file = open('fer.json', 'r')
+json_file = open('models/fer.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)

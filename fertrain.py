@@ -96,7 +96,7 @@ model.fit(np.array(X_train), np.array(y_train),
 
 #saving the  model to be used later
 fer_json = model.to_json()
-with open("fer.json", "w") as json_file:
+with open("models/fer.json", "w") as json_file:
     json_file.write(fer_json)
 model.save_weights("fer.h5")
 print("Saved model to disk")

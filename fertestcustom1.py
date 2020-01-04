@@ -1,31 +1,11 @@
-# load json and create model
-from __future__ import division
-
+import numpy as np
+import cv2
+from keras.models import load_model
 import os
 import time
 
-import cv2
-import numpy as np
-from keras.models import model_from_json
-
-# loading the model
-json_file = open('models/fer.json', 'r')
-loaded_model_json = json_file.read()
-json_file.close()
-loaded_model = model_from_json(loaded_model_json)
-# load weights into new model
-loaded_model.load_weights("models/fer.h5")
-
-
-print("Loaded model from disk")
-
-# setting image resizing parameters
-WIDTH = 48
-HEIGHT = 48
-x = None
-y = None
-labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
-
+model = load_model("./models/model_v6_23.hdf5")
+emotion_dict = {'Happy': 0, 'Sad': 5, 'Fear': 4, 'Disgust': 1, 'Surprise': 6, 'Neutral': 2, 'Angry': 3}
 
 def process(directory, filename, logFileName):
     # a+ arg: 'a' means 'append', + means create if file doesn't exist
@@ -69,20 +49,14 @@ def celeba():
 
 
 def recognize(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    face = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
-    faces = face.detectMultiScale(gray, 1.3, 10)
+    face_image = cv2.resize(image, (48, 48))
+    face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
+    face_image = np.reshape(face_image, [1, face_image.shape[0], face_image.shape[1], 1])
+    predicted_class = np.argmax(model.predict(face_image))
+    label_map = dict((v, k) for k, v in emotion_dict.items())
+    predicted_label = label_map[predicted_class]
 
-    emotion = ""
-    # detecting faces
-    for (x, y, w, h) in faces:
-        roi_gray = gray[y:y + h, x:x + w]
-        cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
-        yhat = loaded_model.predict(cropped_img)
-        emotion = labels[int(np.argmax(yhat))]
-
-    return emotion
-
+    return predicted_label
 
 dataset = input("Input dataset (0 - LFW / 1 - CelebA): ")
 
