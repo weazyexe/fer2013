@@ -20,6 +20,12 @@ This Model -  66.369% accuracy
 
 ![emotions](https://user-images.githubusercontent.com/28602282/48102098-ab737b80-e1e6-11e8-8541-517de2be0064.png)
 
+## Before starting
+
+Fork from gitshanks/fer2013
+
+I changed the classifier in `fertestcustom.py` and add datasets support but it is **hardcoded** (paths of files). If you wanna use the file **check it out**.
+
 ## Getting Started
 
 These instructions will get this model up and running. Follow them to make use of the `fertestcusstom.py` file to recognize facial emotions using custom images. This model can also be used as facial emotion recognition part of projects with broader applications
